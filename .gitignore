@@ -1,4 +1,15 @@
 _site/
+.DS_Store
+Thumbs.db
+public/
+db.json
+
+*.iml
+
+.idea
+
+.deploy_git
 .sass-cache/
 .jekyll-cache/
-.jekyll-metadata
+.jekyll-metadata  
+node_modules/
