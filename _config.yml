@@ -86,6 +86,6 @@ theme: hexo-theme-next-7.0.1
 deploy:
   type: git
   repo:
-      github: git@github.com:aircjm/aircjm.github.io.git,master
-      coding: git@git.coding.net:aircjm/aircjm.git,master
+      github: git@github.com:aircjm/aircjm.github.io.git,githubPages
+      # coding: git@git.coding.net:aircjm/aircjm.git,master
 
