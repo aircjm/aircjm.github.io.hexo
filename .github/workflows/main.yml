@@ -30,10 +30,25 @@ jobs:
         git config --global user.name 'aircjm' # 换成你自己的邮箱和名字
         git config --global user.email 'aircjm@gmail.com'
         # install dependencies
+        export TZ='Asia/Shanghai'
         npm i -g hexo-cli # 安装hexo
         npm i
+  
+    - name: InstallPlugins
+      run: |
+        npm install hexo-renderer-pug --save
+        npm install hexo-renderer-stylus --save
+        npm install hexo-deployer-git --save
+        npm install hexo-generator-search --save
+        npm install hexo-douban --save
+        npm install hexo-generator-feed --save
+        npm install hexo-abbrlink --save
+        npm install hexo-wordcount --save
+  
   
     - name: Deploy
       run: |
         # publish
-        hexo generate && hexo deploy # 执行部署程序
+        rm -rf .deploy_git
+        hexo g && hexo douban && hexo deploy   # 执行部署程序
+        rm ~/.ssh/id_rsa
