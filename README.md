@@ -3,7 +3,7 @@
 create time: 2016.4.16
 该blog的目的旨在培养一个记录学习和生活的习惯.
 
-[aircjm.me](https://aircjm.me) 使用的是hexo搭建的个人静态博客,使用Next主题
+[aircjm.com](https://aircjm.com) 使用的是hexo搭建的个人静态博客,使用Next主题
 
 ##项目计划:
 
@@ -13,5 +13,5 @@ create time: 2016.4.16
 
 
 - [x] 添加rss
-- [ ] 添加阅读次数功能
+- [ ] ~~添加阅读次数功能~~
 - [ ] ~~完成笔记**20**篇（6月底）~~
