@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://aircjm.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="在自己128M的小内存VPS上安装了锐速和SSR，可能内存比较小的问题吧，老是用用shadowsocks的然后进程就挂了，导致无法使用，郁闷。 然后就到网上找了一些资料，通过crontab定时任务刷新的情况，使shadowsocks停止服务之后自动重启服务，避免无法使用的尴尬局面出现。">
+<meta name="keywords" content="教程,shadowsocks">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux定时任务实例-shadowsocks进程停止后自动重启_linux-timer-task-instance_shadowsocks-process-automatically-restarts-after-stopping">
+<meta property="og:url" content="https://aircjm.github.io/2016/10/17/linux-timer-task-instance-shadowsocks-process-automatically-restarts-after-stopping/index.html">
+<meta property="og:site_name" content="ChenRan&#39;s blog">
+<meta property="og:description" content="在自己128M的小内存VPS上安装了锐速和SSR，可能内存比较小的问题吧，老是用用shadowsocks的然后进程就挂了，导致无法使用，郁闷。 然后就到网上找了一些资料，通过crontab定时任务刷新的情况，使shadowsocks停止服务之后自动重启服务，避免无法使用的尴尬局面出现。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-01-21T03:12:55.427Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux定时任务实例-shadowsocks进程停止后自动重启_linux-timer-task-instance_shadowsocks-process-automatically-restarts-after-stopping">
+<meta name="twitter:description" content="在自己128M的小内存VPS上安装了锐速和SSR，可能内存比较小的问题吧，老是用用shadowsocks的然后进程就挂了，导致无法使用，郁闷。 然后就到网上找了一些资料，通过crontab定时任务刷新的情况，使shadowsocks停止服务之后自动重启服务，避免无法使用的尴尬局面出现。">
+
+<link rel="canonical" href="https://aircjm.github.io/2016/10/17/linux-timer-task-instance-shadowsocks-process-automatically-restarts-after-stopping/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Linux定时任务实例-shadowsocks进程停止后自动重启_linux-timer-task-instance_shadowsocks-process-automatically-restarts-after-stopping | ChenRan's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="ChenRan's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ChenRan's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://aircjm.github.io/2016/10/17/linux-timer-task-instance-shadowsocks-process-automatically-restarts-after-stopping/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="chen ran">
+      <meta itemprop="description" content>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ChenRan's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux定时任务实例-shadowsocks进程停止后自动重启_linux-timer-task-instance_shadowsocks-process-automatically-restarts-after-stopping
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-17 22:36:21" itemprop="dateCreated datePublished" datetime="2016-10-17T22:36:21+08:00">2016-10-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-21 11:12:55" itemprop="dateModified" datetime="2020-01-21T11:12:55+08:00">2020-01-21</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在自己128M的小内存VPS上安装了锐速和SSR，可能内存比较小的问题吧，老是用用shadowsocks的然后进程就挂了，导致无法使用，郁闷。</p>
+<p>然后就到网上找了一些资料，通过crontab定时任务刷新的情况，使shadowsocks停止服务之后自动重启服务，避免无法使用的尴尬局面出现。<br><a id="more"></a></p>
+<p>环境：</p>
+<ol>
+<li>CentOS 6.5 x86</li>
+<li>SSR</li>
+<li>crontab</li>
+</ol>
+<h3 id="创建脚本检测进程情况："><a href="#创建脚本检测进程情况：" class="headerlink" title="创建脚本检测进程情况："></a>创建脚本检测进程情况：</h3><p><code>vi monitor.sh</code></p>
+<p>内容为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/sh</span></span><br><span class="line"></span><br><span class="line">proc_name=<span class="string">"procname"</span>                            <span class="comment"># 待监控进程名</span></span><br><span class="line"></span><br><span class="line">number=`ps -ef | grep <span class="variable">$proc_name</span> | grep -v grep | wc -l`</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$number</span> -eq 0 ]                            <span class="comment"># 判断进程是否存在</span></span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">        /etc/init.d/procname restart              <span class="comment"># 重启进程的命令，请相应修改</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p>将<code>procname</code>换成对应的进程名称即可。</p>
+<p>下面是替换后的脚本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">! /bin/sh</span></span><br><span class="line"></span><br><span class="line">proc_name="shadowsocks"                             # 待监控进程名</span><br><span class="line"></span><br><span class="line">number=`ps -ef | grep $proc_name | grep -v grep | wc -l`</span><br><span class="line"></span><br><span class="line">if [ $number -eq 0 ]                             # 判断进程是否存在</span><br><span class="line">then</span><br><span class="line">        /etc/init.d/shadowsocks restart               # 重启进程的命令，请相应修改</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>进程名在</p>
+<p><code>ps -ef</code></p>
+<p>查出的列表的<code>CMD</code>中可以找到。</p>
+<p>命令创建好了，kill掉进程，然后通过<code>./monitor.sh</code>执行下看看有没有效果。</p>
+<p>可能提示权限有问题。添加一下权限就好了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 monitor.sh</span><br></pre></td></tr></table></figure>
+<p>再通过<code>ps -ef</code>可以看看，服务是不是起来的。</p>
+<h3 id="创建定时任务："><a href="#创建定时任务：" class="headerlink" title="创建定时任务："></a>创建定时任务：</h3><p>为了定时进行自动操作。我们就需要crontab的帮忙了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+<p>加入以下内容：</p>
+<p><code>*/1 * * * * ./monitor.sh</code></p>
+<p>加入之后重新启动下crontab即可。</p>
+<p><code>/etc/init.d/crond restart</code></p>
+<p>这样的话就可以了，每分钟都会执行shell脚本，看看服务有没有挂，挂的话，会自动把服务起来的。</p>
+<p>参考：</p>
+<p><a href="http://kenua.blog.sohu.com/280457820.html" target="_blank" rel="noopener">http://kenua.blog.sohu.com/280457820.html</a></p>
+<p><a href="http://www.cnblogs.com/peida/archive/2013/01/08/2850483.html" target="_blank" rel="noopener">http://www.cnblogs.com/peida/archive/2013/01/08/2850483.html</a></p>
+<p><a href="http://www.tennfy.com/3517.html" target="_blank" rel="noopener">http://www.tennfy.com/3517.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/教程/" rel="tag"># 教程</a>
+              <a href="/tags/shadowsocks/" rel="tag"># shadowsocks</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/10/12/Thinking-in-java-Part-2-Everything-is-an-Object/" rel="prev" title="《Java编程思想》读书笔记 第2章 一切皆对象 Thinking_in_java_Part_2_Everything_is_an_Object">
+      <i class="fa fa-chevron-left"></i> 《Java编程思想》读书笔记 第2章 一切皆对象 Thinking_in_java_Part_2_Everything_is_an_Object
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/02/13/【教程】在mac平台下面使用iterm2进行sz和rz命令进行远程服务器文件的上传下载功能/" rel="next" title="【教程】在mac平台下面使用iterm2进行sz和rz命令进行远程服务器文件的上传下载功能">
+      【教程】在mac平台下面使用iterm2进行sz和rz命令进行远程服务器文件的上传下载功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建脚本检测进程情况："><span class="nav-number">1.</span> <span class="nav-text">创建脚本检测进程情况：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建定时任务："><span class="nav-number">2.</span> <span class="nav-text">创建定时任务：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chen ran</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chen ran</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
