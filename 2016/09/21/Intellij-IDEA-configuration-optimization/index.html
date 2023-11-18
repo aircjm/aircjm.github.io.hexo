@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://aircjm.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="平时主要开发IDE使用的是Intellij IDEA 14，有的时候需要对IDE的配置进行微调，提高开发效率。下面就是比较常用的修改项。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="idea 配置优化 Intellij_IDEA_configuration_optimization">
+<meta property="og:url" content="https://aircjm.github.io/2016/09/21/Intellij-IDEA-configuration-optimization/index.html">
+<meta property="og:site_name" content="ChenRan&#39;s blog">
+<meta property="og:description" content="平时主要开发IDE使用的是Intellij IDEA 14，有的时候需要对IDE的配置进行微调，提高开发效率。下面就是比较常用的修改项。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-09-21T07:32:04.000Z">
+<meta property="article:modified_time" content="2023-11-18T11:39:45.549Z">
+<meta property="article:author" content="chen ran">
+<meta property="article:tag" content="config">
+<meta property="article:tag" content="idea">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://aircjm.github.io/2016/09/21/Intellij-IDEA-configuration-optimization/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>idea 配置优化 Intellij_IDEA_configuration_optimization | ChenRan's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="ChenRan's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ChenRan's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://aircjm.github.io/2016/09/21/Intellij-IDEA-configuration-optimization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="chen ran">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ChenRan's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          idea 配置优化 Intellij_IDEA_configuration_optimization
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-21 15:32:04" itemprop="dateCreated datePublished" datetime="2016-09-21T15:32:04+08:00">2016-09-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-11-18 19:39:45" itemprop="dateModified" datetime="2023-11-18T19:39:45+08:00">2023-11-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>平时主要开发IDE使用的是Intellij IDEA 14，有的时候需要对IDE的配置进行微调，提高开发效率。<br>下面就是比较常用的修改项。</p>
+<span id="more"></span>
+
+
+
+<h3 id="项目启动不默认打开最后项目："><a href="#项目启动不默认打开最后项目：" class="headerlink" title="项目启动不默认打开最后项目："></a>项目启动不默认打开最后项目：</h3><p>File -&gt; Settings -&gt; Appearance &amp; Behavior -&gt; System Settings -&gt; Startup/Shutdown 标签项 -&gt; 去掉 Reopen last project on startup</p>
+<h3 id="关闭程序自动更新检查："><a href="#关闭程序自动更新检查：" class="headerlink" title="关闭程序自动更新检查："></a>关闭程序自动更新检查：</h3><p>File -&gt; Settings -&gt; Appearance &amp; Behavior -&gt; System Settings -&gt; Updates -&gt; 去掉勾选 Automatically check updates for</p>
+<h3 id="设置字符编码格式："><a href="#设置字符编码格式：" class="headerlink" title="设置字符编码格式："></a>设置字符编码格式：</h3><p>File -&gt; Settings -&gt; Editor -&gt; File Encodings -&gt; 设置 IDE Encoding、Project Encoding、Defalut encoding for properties files 都为 UTF-8 并且勾选 Transparent native -to-ascii conversion</p>
+<h3 id="过滤的文件类型和目录："><a href="#过滤的文件类型和目录：" class="headerlink" title="过滤的文件类型和目录："></a>过滤的文件类型和目录：</h3><p>File -&gt; Settings -&gt; Editor -&gt; File Types -&gt; Ignore files and folders -&gt; 添加 <code>*.iml;*.idea;*.classpath;*.project;*.settings;target;</code></p>
+<h3 id="显示代码行号和方法分割线："><a href="#显示代码行号和方法分割线：" class="headerlink" title="显示代码行号和方法分割线："></a>显示代码行号和方法分割线：</h3><p>File -&gt; Settings -&gt; Editor -&gt; General -&gt; Apperance -&gt; 勾选 Show line numbers、Show method separators</p>
+<p>代码折叠：</p>
+<h3 id="有时候我们需要阅读每一行代码，所以需要让每行代码都显示"><a href="#有时候我们需要阅读每一行代码，所以需要让每行代码都显示" class="headerlink" title="有时候我们需要阅读每一行代码，所以需要让每行代码都显示"></a>有时候我们需要阅读每一行代码，所以需要让每行代码都显示</h3><p>File -&gt; Settings -&gt; Editor -&gt; General -&gt; Code Folding 去除勾选 Collapse by default 中的File header Imports， One-line methods</p>
+<p>idea import比较多的话，会自动转成*，对于开发不是很友好，所以把import调大点。</p>
+<p>File -&gt; Settings -&gt; Editor -&gt; Code Style -&gt; Java -&gt;  Class count to use import with ‘*’ 和  Names count to use static improt with 调到1000.</p>
+<h3 id="Maven镜像地址修改"><a href="#Maven镜像地址修改" class="headerlink" title="Maven镜像地址修改"></a>Maven镜像地址修改</h3><p>关于maven的配置，idea中自己集成了maven的插件，可以无缝进行使用。</p>
+<p>但是为了加快maven的速度，切换了maven的阿里云镜像</p>
+<p>在maven的配置文件settings.xml的mirrors节点添加</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-aliyun<span class="tag">&lt;/<span class="name">id</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span>      </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus aliyun<span class="tag">&lt;/<span class="name">name</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span>    </span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span>  </span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/config/" rel="tag"># config</a>
+              <a href="/tags/idea/" rel="tag"># idea</a>
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/07/03/2016%E5%B9%B46%E6%9C%88%E5%B0%8F%E7%BB%93/" rel="prev" title="2016年6月小结">
+      <i class="fa fa-chevron-left"></i> 2016年6月小结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/09/23/git-commond-list/" rel="next" title="git_commond_list">
+      git_commond_list <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E4%B8%8D%E9%BB%98%E8%AE%A4%E6%89%93%E5%BC%80%E6%9C%80%E5%90%8E%E9%A1%B9%E7%9B%AE%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">项目启动不默认打开最后项目：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E7%A8%8B%E5%BA%8F%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E6%A3%80%E6%9F%A5%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">关闭程序自动更新检查：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">设置字符编码格式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E7%9A%84%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E5%92%8C%E7%9B%AE%E5%BD%95%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">过滤的文件类型和目录：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E4%BB%A3%E7%A0%81%E8%A1%8C%E5%8F%B7%E5%92%8C%E6%96%B9%E6%B3%95%E5%88%86%E5%89%B2%E7%BA%BF%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">显示代码行号和方法分割线：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%97%B6%E5%80%99%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E9%98%85%E8%AF%BB%E6%AF%8F%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%EF%BC%8C%E6%89%80%E4%BB%A5%E9%9C%80%E8%A6%81%E8%AE%A9%E6%AF%8F%E8%A1%8C%E4%BB%A3%E7%A0%81%E9%83%BD%E6%98%BE%E7%A4%BA"><span class="nav-number">6.</span> <span class="nav-text">有时候我们需要阅读每一行代码，所以需要让每行代码都显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Maven%E9%95%9C%E5%83%8F%E5%9C%B0%E5%9D%80%E4%BF%AE%E6%94%B9"><span class="nav-number">7.</span> <span class="nav-text">Maven镜像地址修改</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chen ran</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">皖ICP备17015506号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chen ran</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
